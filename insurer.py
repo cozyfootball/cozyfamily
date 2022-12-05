@@ -1,3 +1,4 @@
+from aiogram import Bot
 from aiogram import Dispatcher
 from aiogram import executor
 from aiogram import types
