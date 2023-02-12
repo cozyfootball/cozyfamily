@@ -9,9 +9,10 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeybo
 from aiogram.dispatcher.filters import BoundFilter
 import random
 import sqlite3
+from aiogram.utils.markdown import hlink
 
 # Базовые настройки
-API_TOKEN = 'TOKEN'
+API_TOKEN = ''
 bot = Bot(token=API_TOKEN)
 dp  = Dispatcher(bot)
 
@@ -52,15 +53,16 @@ async def first_step(message: types.Message):
     f'Страховщики зачастую не любят🙅🏻‍♂️ возвращать страховые премии клиентам, поэтому *пытаются усложнить процедуру* возврата премии.\n' 
     f'*Я 🦚 помогу* определить возможность возврата денег и *поделюсь формой заявления* на возврат.')
     await message.answer(text=hello_user, parse_mode="MarkDown")
+    sleep(3)
+    my_youtube = hlink('Видеоинструкция', 'https://www.youtube.com/shorts/rWiGt8wD5wg')
+    await message.answer(text=my_youtube, parse_mode="HTML")
+
     if user_id == 29720838:
         await message.answer(text=f'Количество обратившихся: *{thx_num_all[0]}*\n'
                                     f'Количество благодарностей: *{thx_num[0]}*', parse_mode="MarkDown")
     sleep(4)
     MainMenu = InlineKeyboardMarkup(row_width=2)
-    MainMenu.insert(button1)
-    MainMenu.insert(button2)
-    MainMenu.insert(button3)
-    MainMenu.insert(button4)
+    MainMenu.add(button1, button2, button3, button4)
     hello_user2 = (f'1️⃣ Жми *"Проверка"*🧐 - чтобы проверить свой полис на возможность возврата страховой премии.\n'
                    f'2️⃣ Жми *"Заявление"*🧾 - чтобы получить образец заявления и направить пакет документов Страховщику для возврата премии.\n'
                    f'3️⃣ Жми *"Обратная связь"*💌 - чтобы направить комплект своих документов на индивидуальную экспертизу на возможность возврата страховой премии по договору. Или просто связаться с нами.\n'
@@ -81,8 +83,7 @@ async def blanc_call(call):
                  f'✅ Оригинал/Копию страхового полиса\n'
                  f'☑ Документ подтверждающий закрытие кредита (только для типа 💰"Погашение кредита")')
     Blanc_choise = InlineKeyboardMarkup(row_width=2)
-    Blanc_choise.insert(button5)
-    Blanc_choise.insert(button6)
+    Blanc_choise.add(button5, button6)
     await bot.send_message(chat_id=call.from_user.id, text=blancmes2, reply_markup=Blanc_choise, parse_mode="MarkDown")
 
 @dp.callback_query_handler(text='14day')
@@ -154,8 +155,7 @@ async def check_1(call):
     button8 = InlineKeyboardButton(text='Да✅', callback_data='yes1')
     button9 = InlineKeyboardButton(text='Нет🚫', callback_data='no1')
     q1_choise = InlineKeyboardMarkup(row_width=2)
-    q1_choise.insert(button8)
-    q1_choise.insert(button9)
+    q1_choise.add(button8, button9)
     await bot.send_message(chat_id=call.from_user.id, text=q1, reply_markup=q1_choise, parse_mode="MarkDown")
 @dp.callback_query_handler(text='yes1')
 async def check_yes1(call):
@@ -167,8 +167,7 @@ async def check_no1(call):
     button8 = InlineKeyboardButton(text='Да✅', callback_data='yes2')
     button9 = InlineKeyboardButton(text='Нет🚫', callback_data='no2')
     q2_choise = InlineKeyboardMarkup(row_width=2)
-    q2_choise.insert(button8)
-    q2_choise.insert(button9)
+    q2_choise.add(button8, button9)
     await bot.send_message(chat_id=call.from_user.id, text=q2, reply_markup=q2_choise, parse_mode="MarkDown")
 @dp.callback_query_handler(text='no2')
 async def check_no2(call):
@@ -178,8 +177,7 @@ async def check_no2(call):
     q3_choise = InlineKeyboardMarkup(row_width=2)
     button8 = InlineKeyboardButton(text='Да✅', callback_data='yes3')
     button9 = InlineKeyboardButton(text='Нет🚫', callback_data='no3')
-    q3_choise.insert(button8)
-    q3_choise.insert(button9)
+    q3_choise.add(button8, button9)
     await bot.send_message(chat_id=call.from_user.id, text=q3, reply_markup=q3_choise, parse_mode="MarkDown")
 
 @dp.callback_query_handler(text='yes3')
@@ -204,8 +202,7 @@ async def check_yes2(call):
     q4_choise = InlineKeyboardMarkup(row_width=2)
     button8 = InlineKeyboardButton(text='Да✅, после 01.09.20', callback_data='yes4')
     button9 = InlineKeyboardButton(text='Нет🚫, до 01.09.20', callback_data='no4')
-    q4_choise.insert(button8)
-    q4_choise.insert(button9)
+    q4_choise.add(button8, button9)
     await bot.send_message(chat_id=call.from_user.id, text=q4, reply_markup=q4_choise, parse_mode="MarkDown")
 @dp.callback_query_handler(text='no4')
 async def check_no4(call):
@@ -236,8 +233,7 @@ async def check_yes5(call):
     q5_choise = InlineKeyboardMarkup(row_width=2)
     button8 = InlineKeyboardButton(text='1️⃣ полис', callback_data='1')
     button9 = InlineKeyboardButton(text='2️⃣ и более', callback_data='2')
-    q5_choise.insert(button8)
-    q5_choise.insert(button9)
+    q5_choise.add(button8, button9)
     await bot.send_message(chat_id=call.from_user.id, text=yes4mes2, reply_markup=q5_choise, parse_mode="MarkDown")
 @dp.callback_query_handler(text='2')
 async def check_2p(call):
